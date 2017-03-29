@@ -3,8 +3,11 @@ var translateWord = function(word) {
   var translatedWord = "";
   var firstletter = word[0].toLowerCase();
   var vowelArray = ["a", "e", "i", "o", "u", "y"];
-  if (!vowelArray.includes(firstletter)) {      //Makes sure that the first letter is NOT a vowel, hence the exclamation point.
-    var initialConsonants = [];
+  var initialConsonants = [];
+  if (firstletter === "y") {
+    wordArray.push(wordArray.shift());
+  }
+  else if (!vowelArray.includes(firstletter)) {      //Makes sure that the first letter is NOT a vowel, hence the exclamation point.
     var i = 0;
     while (!vowelArray.includes(word[i]) && i < word.length) {      //Cycles through each letter until the function hits a vowel.
       initialConsonants.push(word[i]);                      //Pushes each consonant into the consonant array.
@@ -21,6 +24,11 @@ var translateWord = function(word) {
   return wordArray.join('') + 'ay';                                  //Converts the array into a string and adds 'ay' to the end.
 }
 
+var replacer = function(charArray) {
+  var i = 0;
+  //while character != vowel OR charArray[0] === y, move elements to the end of the array
+
+}
 
 var translateString = function(string) {      //This is the function you pass a full string to.
   var arrayOfTranslatedWords = [];
