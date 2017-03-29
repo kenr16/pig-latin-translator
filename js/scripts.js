@@ -1,6 +1,5 @@
 var translateWord = function(word) {
   var wordArray = word.split("");
-  var translatedWord = "";
   var firstletter = word[0].toLowerCase();
   var vowelArray = ["a", "e", "i", "o", "u", "y"];
   var initialConsonants = [];
@@ -14,7 +13,7 @@ var translateWord = function(word) {
       i++;
     }
     wordArray.splice(0, initialConsonants.length);           //Splice out a set of consonants of a length corresponding to the number we pushed earlier.
-    wordArray.push(initialConsonants);                       //Pushes the initial consonants back onto the end of the word.
+    wordArray = wordArray.concat(initialConsonants);                       //Pushes the initial consonants back onto the end of the word.
     if (initialConsonants[initialConsonants.length - 1].toLowerCase() === "q") {  //Check to see if the last letter of initial consonants is a "q".
       if (wordArray[0] === "u") {
         wordArray.push(wordArray.shift());                      //Taking the first 'u' after the 'q' we detected, and shift it off the front then push it to the end.
@@ -24,11 +23,6 @@ var translateWord = function(word) {
   return wordArray.join('') + 'ay';                                  //Converts the array into a string and adds 'ay' to the end.
 }
 
-var replacer = function(charArray) {
-  var i = 0;
-  //while character != vowel OR charArray[0] === y, move elements to the end of the array
-
-}
 
 var translateString = function(string) {      //This is the function you pass a full string to.
   var arrayOfTranslatedWords = [];
@@ -40,17 +34,19 @@ var translateString = function(string) {      //This is the function you pass a 
 }
 
 var disqualifyTest = function(string) {
-  return string.match(/![a-zA-Z]/);
+  return /[^a-z]/i.test(string);
 }
 
-
-
 $(document).ready(function() {
-  $('form').submit(function() {
+  $('form').submit(function(e) {
+    e.preventDefault();
     var string = $('input#input').val();
-    var translatedString = translateString(string);
-    var outputElement = $('section#output');
-    outputElement.text(translatedString);
+    if (disqualifyTest(string) === false) {
+      var translatedString = translateString(string);
+      var outputElement = $('section#output');
+      outputElement.text(translatedString);
+    } else {
     return false;
+    }
   });
 });
