@@ -34,14 +34,14 @@ var translateString = function(string) {      //This is the function you pass a 
 }
 
 var disqualifyTest = function(string) {
-  return /[^a-z]/i.test(string);
+  return /^[a-zA-Z\s]*$/i.test(string);
 }
 
 $(document).ready(function() {
   $('form').submit(function(e) {
     e.preventDefault();
     var string = $('input#input').val();
-    if (disqualifyTest(string) === false) {
+    if (disqualifyTest(string) === true) {
       var translatedString = translateString(string);
       var outputElement = $('section#output');
       outputElement.text(translatedString);
@@ -50,3 +50,44 @@ $(document).ready(function() {
     }
   });
 });
+
+var assert = function(boolean_conditional_statement) {
+  return boolean_conditional_statement;
+}
+
+var assertEquals = function(a, b) {
+  return a === b;
+}
+
+var testDisqualifyTest = function() {
+  var success = true;
+  var string = '123abc';
+  var expectedResult = false;
+  var actualResult = disqualifyTest(string);
+  return assertEquals(expectedResult, actualResult);
+}
+
+var testDisqualifyTestTrue = function() {
+  var secondString = 'abc';
+  var secondExpectedResult = true;
+  var secondActualResult = disqualifyTest(secondString);
+  return assertEquals(secondExpectedResult, secondActualResult);
+}
+
+var testTranslateString = function() {
+  var string = 'The man has a can';
+  var expectedResult = 'eThay anmay ashay aay ancay';
+  var actualResult = translateString(string);
+  return assertEquals(expectedResult, actualResult);
+}
+
+var testTranslateWord = function() {
+  var string = 'The';
+  var expectedResult = 'eThay';
+  var actualResult = translateString(string);
+  return assertEquals(expectedResult, actualResult);
+}
+
+var testThemAll = function() {
+  console.log(testTranslateWord() && testTranslateString() && testDisqualifyTest() && testDisqualifyTestTrue()); //Should we add in the second test?
+}
